@@ -1,0 +1,31 @@
+SNOOP
+
+SYNOPSIS
+    Snoop is a musical instrument controlled by listening to network interfaces.
+
+DESCRIPTION
+    The project consists of 2 parts:
+        o A synth server written in Supercollider speaking OSC over UDP
+        o A client that monitors ethernet packets on a network interface and
+            which sends OSC messages to the server to control various parameters.
+
+    The idea is that the activity of a network card is forwarded to control the
+    synthesizer. Using something like libpcap, we can map different network
+    protocol messages to synthesizer sounds. The clients can be written in any
+    language that can be used to listen to network activity and send OSC
+    messages over UDP.
+
+    The synth will be controlled by some background network activity (like ARP
+    requests) but can be excited by user activity:
+        o Flushing the OS ARP cache
+        o Sending ICMP, DNS, DHCP requests
+        o Browsing the internet/sending whatsapp messages (i.e sending TCP requests)
+
+TO BE DEFINED
+    o What network packets can we listen on?
+        o ARP (entire network)
+        o DHCP
+        o TCP/UDP
+        o DNS
+        o ICMP
+    o What parameters can we control and how should we map each packet to synth parameters?
