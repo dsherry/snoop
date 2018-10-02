@@ -11,25 +11,32 @@ OSCFunc.trace(false);
 (
 SynthDef(\shortblip, {
 	var env = Env([1, 0], [0.05, 0]);
-	Out.ar(0, SinOsc.ar(470 + Rand(0,1000)) * EnvGen.kr(env, doneAction: Done.freeSelf));
+	var sound = SinOsc.ar(470 + Rand(0,1000)) * EnvGen.kr(env, doneAction: Done.freeSelf);
+	Out.ar(1, sound);
+	Out.ar(0, sound);
 }).add;
 );
+s = Synth(\shortblip);
 (
 SynthDef(\longlow, {
 	var env = Env([0, 1, 1, 0], [1, 1, 1, 0]);
-	Out.ar(0, SinOsc.ar(220 + Rand(0,440)) * EnvGen.kr(env, doneAction: Done.freeSelf));
+	var sound = SinOsc.ar(220 + Rand(0,440)) * EnvGen.kr(env, doneAction: Done.freeSelf);
+	Out.ar(1, sound);
+	Out.ar(0, sound);
 }).add;
 );
 (
 SynthDef(\longmid, {
 	var env = Env([0, 1, 1, 0], [1, 1, 1, 0]);
-	Out.ar(0, SinOsc.ar(440 + Rand(0,440)) * EnvGen.kr(env, doneAction: Done.freeSelf));
+	var sound = SinOsc.ar(440 + Rand(0,440)) * EnvGen.kr(env, doneAction: Done.freeSelf);
+	Out.ar(1, sound);
+	Out.ar(0, sound);
 }).add;
 );
 
 //Synth(\mysynth);
 
-//SynthDef(\sine, {Out.ar(0,SinOsc.ar(Rand(440,880),0,0.1))}).add;
+SynthDef(\sine, {Out.ar(0,SinOsc.ar(Rand(440,880),0,0.1))}).add;
 s = Synth(\sine);
 s.free;
 
@@ -51,9 +58,9 @@ var d = OSCdef('dns', {|msg, time, addr, recvPort|
 	msg[0].postln;
 	Synth(\longmid);
 }, '/dns', nil); // def style
-udpdef.free;
-tcpdef.free;
-dnsdef.free;
+u.free;
+t.free;
+d.free;
 
 // send a message to test the connection
 m = NetAddr("127.0.0.1", NetAddr.langPort); // loopback
